@@ -2,6 +2,8 @@
 #define PPM_IMAGE_H
 
 #include <array>
+#include <fstream>
+#include <string>
 
 #include "Color.h"
 #include "Point.h"
@@ -17,33 +19,40 @@ template< Has2dSizeParameters T >
 class PpmImage
 {
 private: 
-	std::array<Color, T::x * T::y> data_;
+	typedef std::array<Color, T::x * T::y> StorageType;
+	typedef StorageType::iterator iterator;
+
+	StorageType data_;
 
 public:
 	PpmImage() : data_() { }
 
-	struct iterator
+	static constexpr const std::size_t N_PIXELS = T::x * T::y;
+
+	[[nodiscard]]
+	bool write(const std::string& fileName)
 	{
-		typedef std::random_access_iterator_tag iterator_category;
-		typedef Color value_type;
-		typedef std::ptrdiff_t difference_type;
-		typedef Color* pointer;
-		typedef Color& reference;
+		std::ofstream filestream{};
+		filestream.open(fileName, std::ofstream::out);
 
-		iterator(pointer ptr) : ptr_(ptr) { }
+		// Write header
+		filestream << "P3\n"
+			<< T::x << ' '
+			<< T::y << "\n255\n";
 
-		reference operator*() const { return *ptr_; }
-		pointer operator->() { return ptr_; }
+		for (auto& pixel : data_)
+		{
+			filestream << std::to_string(pixel.r) << ' ' << std::to_string(pixel.g) << ' ' << std::to_string(pixel.b) << '\n';
+		}
 
-		iterator& operator++() { ptr_++; return *this; }
-		iterator operator++(int) { iterator tmp = *this; ++(*this); return tmp; }
+		filestream.close();
 
-	private:
-		pointer ptr_;
-	};
+		return true; // Always for now...
+	}
 
-	iterator begin() { return iterator{ &data_[0] }; }
-	iterator end() { return iterator{ &data_[T::x * T::y] }; }
+	iterator begin() { return data_.begin(); }
+	iterator end() { return data_.end(); }
+
 };
 
 #endif // PPM_IMAGE_H
