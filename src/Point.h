@@ -3,8 +3,8 @@
 
 struct Point
 {
-	std::size_t x;
-	std::size_t y;
+    std::size_t x;
+    std::size_t y;
 };
 
 #endif // POINT_H
