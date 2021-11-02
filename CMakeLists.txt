@@ -14,3 +14,4 @@ set(boost_unit_test_framework_DIR C:/Boost/lib64-msvc-14.2/cmake/boost_unit_test
 find_package(Boost COMPONENTS unit_test_framework REQUIRED CONFIG )
 
 add_subdirectory(src)
+add_subdirectory(test)
