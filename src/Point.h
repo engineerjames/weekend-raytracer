@@ -1,10 +1,19 @@
 #ifndef POINT_H
 #define POINT_H
 
-struct Point
+template<typename T>
+struct Point2
 {
-    std::size_t x;
-    std::size_t y;
+    T x;
+    T y;
+};
+
+template<typename T>
+struct Point3
+{
+    T x;
+    T y;
+    T z;
 };
 
 #endif // POINT_H

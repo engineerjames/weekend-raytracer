@@ -6,7 +6,6 @@
 #include <string>
 
 #include "Color.h"
-#include "Point.h"
 
 template<typename T>
 concept Has2dSizeParameters = requires(T)

@@ -2,6 +2,7 @@ add_executable(main
     main.cpp
     Color.h
     PpmImage.h
+    Ray.h
     Size.h
     Point.h
     Vector.h
