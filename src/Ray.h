@@ -11,7 +11,7 @@ public:
     Vector3f getDirection() const { return direction_; }
 
     Point3f at(float t) const {
-        return origin_ + t * direction_; // TODO: Add vector operations for Point as well
+        return origin_ + t * direction_;
     }
 
 private:
