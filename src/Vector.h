@@ -157,4 +157,9 @@ Vector3<T> cross(const Vector3<T>& v1, const Vector3<T>& v2)
     );
 }
 
+typedef Vector3<float> Vector3f;
+typedef Vector3<double> Vector3d;
+typedef Vector3f Point3f;
+typedef Vector3d Point3d;
+
 #endif // VECTOR3_H

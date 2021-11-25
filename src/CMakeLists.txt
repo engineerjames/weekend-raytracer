@@ -4,7 +4,6 @@ add_executable(main
     PpmImage.h
     Ray.h
     Size.h
-    Point.h
     Vector.h
     )
 
