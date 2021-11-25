@@ -53,18 +53,6 @@ class Vector3
             return *this;
         }
 
-        bool operator==(const Vector3<T>& other)
-        {
-            return other.x() == this->x() &&
-                   other.y() == this->y() &&
-                   other.z() == this->z();
-        }
-
-        bool operator!=(const Vector3<T>& other)
-        {
-            return !(*this == other);
-        }
-
         Vector3<T> toUnit() const
         {
             (*this)/this->length();
@@ -82,13 +70,27 @@ class Vector3
 };
 
 // Utility functions
-template<typename T>
+template<std::floating_point T>
 std::ostream& operator<<(std::ostream& out, const Vector3<T>& vector)
 {
     return out << vector.x() << ", " << vector.y() << ", " << vector.z();
 }
 
-template<typename T>
+template<std::floating_point T>
+bool operator==(const Vector3<T>& lhs, const Vector3<T>& rhs)
+{
+    return  lhs.x() == rhs.x() &&
+            lhs.y() == rhs.y() &&
+            lhs.z() == rhs.z();
+}
+
+template<std::floating_point T>
+bool operator!=(const Vector3<T>& lhs, const Vector3<T>& rhs)
+{
+    return !(lhs==rhs);
+}
+
+template<std::floating_point T>
 Vector3<T> operator+(const Vector3<T>& v1, const Vector3<T>& v2)
 {
     return Vector3{ v1.x() + v2.x(),
@@ -96,7 +98,7 @@ Vector3<T> operator+(const Vector3<T>& v1, const Vector3<T>& v2)
                     v1.z() + v2.z()};
 }
 
-template<typename T>
+template<std::floating_point T>
 Vector3<T> operator-(const Vector3<T>& v1, const Vector3<T>& v2)
 {
     return Vector3{ v1.x() - v2.x(),
@@ -104,7 +106,7 @@ Vector3<T> operator-(const Vector3<T>& v1, const Vector3<T>& v2)
                     v1.z() - v2.z()};
 }
 
-template<typename T>
+template<std::floating_point T>
 Vector3<T> operator*(const Vector3<T>& v1, const Vector3<T>& v2)
 {
     return Vector3{ v1.x() * v2.x(),
@@ -112,7 +114,7 @@ Vector3<T> operator*(const Vector3<T>& v1, const Vector3<T>& v2)
                     v1.z() * v2.z()};
 }
 
-template<typename T, std::floating_point U>
+template<std::floating_point T, std::floating_point U>
 Vector3<T> operator*(const Vector3<T>& v1, U scalar)
 {
     // The cast is needed to ensure if U is of type 'double'
@@ -125,19 +127,19 @@ Vector3<T> operator*(const Vector3<T>& v1, U scalar)
     };
 }
 
-template<typename T, std::floating_point U>
+template<std::floating_point T, std::floating_point U>
 Vector3<T> operator*(U scalar, const Vector3<T>& v1 )
 {
     return v1*scalar;
 }
 
-template<typename T, std::floating_point U>
+template<std::floating_point T, std::floating_point U>
 Vector3<T> operator/(Vector3<T> v1, U scalar)
 {
     return (1.0/scalar) * v1;
 }
 
-template<typename T>
+template<std::floating_point T>
 T dot(const Vector3<T>& v1, const Vector3<T>& v2)
 {
     return (v1.x() * v2.x() +
@@ -145,7 +147,7 @@ T dot(const Vector3<T>& v1, const Vector3<T>& v2)
             v1.z() * v2.z());
 }
 
-template<typename T>
+template<std::floating_point T>
 Vector3<T> cross(const Vector3<T>& v1, const Vector3<T>& v2)
 {
     return Vector3(

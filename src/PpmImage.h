@@ -19,7 +19,7 @@ class PpmImage
 {
 private:
     typedef std::array<Color, T::x * T::y> StorageType;
-    typedef StorageType::iterator iterator;
+    typedef typename StorageType::iterator iterator;
 
     StorageType data_;
 
