@@ -14,7 +14,7 @@ int main()
     colorToWrite.b = 65;
 
     static std::size_t progress = 0;
-    for (auto& pixel : image)
+    for (auto &pixel : image)
     {
         colorToWrite.r += 1;
         colorToWrite.g -= 1;
@@ -24,7 +24,7 @@ int main()
         progress += 1;
 
         std::cerr << "\rScanlines remaining: "
-            << (PpmImage<Size<256, 256>>::N_PIXELS - progress);
+                  << (PpmImage<Size<256, 256>>::N_PIXELS - progress);
     }
 
     std::cerr << "\nWriting image to disk.\n";
