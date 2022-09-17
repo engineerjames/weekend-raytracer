@@ -10,21 +10,25 @@ PpmImage<Size<256, 256>> image{};
 
 int main()
 {
-    Color colorToWrite{};
-    colorToWrite.b = 65;
-
     static std::size_t progress = 0;
-    for (auto &pixel : image)
+
+    for (int j = image.SIZE_Y - 1; j >= 0; --j)
     {
-        colorToWrite.r += 1;
-        colorToWrite.g -= 1;
+        std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
+        for (int i = 0; i < image.SIZE_X; ++i)
+        {
+            auto r = double(i) / (image.SIZE_X - 1);
+            auto g = double(j) / (image.SIZE_Y - 1);
+            auto b = 0.25;
 
-        pixel = colorToWrite;
+            std::uint8_t ir = static_cast<std::uint8_t>(255.999 * r);
+            std::uint8_t ig = static_cast<std::uint8_t>(255.999 * g);
+            std::uint8_t ib = static_cast<std::uint8_t>(255.999 * b);
 
-        progress += 1;
+            Color colorToWrite{ir, ig, ib};
 
-        std::cerr << "\rScanlines remaining: "
-                  << (PpmImage<Size<256, 256>>::N_PIXELS - progress);
+            image.setPixel(i, j, colorToWrite);
+        }
     }
 
     std::cerr << "\nWriting image to disk.\n";

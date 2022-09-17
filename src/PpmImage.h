@@ -18,15 +18,22 @@ template <Has2dSizeParameters T>
 class PpmImage
 {
 private:
-    typedef std::array<Color, T::x * T::y> StorageType;
-    typedef typename StorageType::iterator iterator;
+    typedef std::array<Color, T::x * T::y> ArrayType;
+    typedef typename ArrayType::iterator iterator;
 
-    StorageType data_;
+    ArrayType data_;
 
 public:
     PpmImage() : data_() {}
 
+    static constexpr const std::size_t SIZE_X = T::x;
+    static constexpr const std::size_t SIZE_Y = T::y;
     static constexpr const std::size_t N_PIXELS = T::x * T::y;
+
+    void setPixel(const int x, const int y, const Color &color) noexcept
+    {
+        data_.at(y * SIZE_Y + x) = color;
+    }
 
     [[nodiscard]] bool write(const std::string &fileName) noexcept
     {
@@ -35,12 +42,19 @@ public:
 
         // Write header
         filestream << "P3\n"
-                   << T::x << ' '
-                   << T::y << "\n255\n";
+                   << SIZE_X << ' '
+                   << SIZE_Y << "\n255\n";
 
-        for (auto &pixel : data_)
+        for (int j = SIZE_Y - 1; j >= 0; --j)
         {
-            filestream << std::to_string(pixel.r) << ' ' << std::to_string(pixel.g) << ' ' << std::to_string(pixel.b) << '\n';
+            std::cerr << j << std::endl;
+            for (int i = 0; i < SIZE_X; ++i)
+            {
+                const auto index = j * SIZE_Y + i;
+                const auto pixel = data_.at(index);
+
+                filestream << std::to_string(pixel.r) << ' ' << std::to_string(pixel.g) << ' ' << std::to_string(pixel.b) << '\n';
+            }
         }
 
         filestream.close();
