@@ -17,4 +17,5 @@ endif()
 find_package(Boost COMPONENTS unit_test_framework REQUIRED )
 
 add_subdirectory(src)
+add_subdirectory(src_original)
 add_subdirectory(test)
